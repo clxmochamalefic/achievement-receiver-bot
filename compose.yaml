@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  mainsvc:
+    image: node:lts-bullseye
+    links:
+      - db
+      - redis
+    volumes:
+      - ./server:/var/www
+
+  nginx:
+    image: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./server:/var/www
+      - ./nginx.default.conf:/etc/nginx/conf.d/default.conf
+      - ./debug/nlog:/var/log/nginx
+    depends_on:
+      - mainsvc
+
+  db:
+    image: mariadb:10.11
+    environment:
+      MYSQL_ROOT_PASSWORD: P@ssw0rd
+      MYSQL_DATABASE: database
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./debug/mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  redis:
+    image: redis:7.0.11
+    ports:
+      - 6379:6379
+    volumes:
+      - ./debug/redis:/data
+
