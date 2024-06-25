@@ -27,9 +27,11 @@
     "env-yaml": "^0.1.2",
     "express": "^4.17.1",
     "js-yaml": "^4.1.0",
+    "mysql2": "^3.10.1",
     "nodemon": "^3.0.2",
     "querystring": "^0.2.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "umzug": "^3.8.1"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
